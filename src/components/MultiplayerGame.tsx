@@ -497,9 +497,10 @@ export const MultiplayerGame: React.FC = () => {
     });
 
     newSocket.on("game-deleted", ({ message }) => {
-      setErrorMessage(message);
+      // Xóa local storage ngay lập tức khi phòng bị xóa
+      clearGameSession();
+      setErrorMessage(message || "Chủ phòng đã xóa phòng chơi");
       setTimeout(() => {
-        clearGameSession();
         resetGame();
       }, 2000);
     });
@@ -728,10 +729,12 @@ export const MultiplayerGame: React.FC = () => {
 
   const confirmDeleteGame = () => {
     if (!socket || !gameId) return;
+    // Gửi yêu cầu xóa phòng (server sẽ broadcast event game-deleted)
     socket.emit("delete-game", { gameId });
+    // Chủ phòng cũng xóa local storage
     clearGameSession();
-    resetGame();
     setShowDeleteConfirm(false);
+    // Chờ nhận event từ server để reset game
   };
 
   const resetGame = () => {

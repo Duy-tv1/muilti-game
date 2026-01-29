@@ -243,7 +243,8 @@ io.on("connection", (socket) => {
       return;
     }
 
-    io.to(gameId).emit("game-deleted");
+    // Thông báo tất cả thành viên phòng bị xóa
+    io.to(gameId).emit("game-deleted", { message: "Chủ phòng đã xóa phòng chơi" });
     games.delete(gameId);
   });
 
