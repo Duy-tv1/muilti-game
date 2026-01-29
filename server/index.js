@@ -28,7 +28,7 @@ app.use(cors());
 app.use(bodyParser.json({ limit: "1mb" }));
 
 // Serve built frontend if it exists
-const staticPath = path.resolve(__dirname, "../../dist");
+const staticPath = path.resolve(__dirname, "../dist");
 fs.access(staticPath)
   .then(() => {
     console.log("Found frontend build at", staticPath, "— serving static files.");
