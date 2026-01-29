@@ -1,4 +1,4 @@
-# Gan Kết Tính Than - Real-time Multiplayer Game
+# Gắn kết tình thân - Real-time Multiplayer Game
 
 Trò chơi trực tuyến theo thời gian thực với Socket.IO
 
