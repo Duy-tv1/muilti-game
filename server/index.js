@@ -84,6 +84,19 @@ async function loadQuestionsFromGoogleSheet() {
     // Debug: Log headers found
     if (parseResult.meta && parseResult.meta.fields) {
       console.log('📋 CSV Headers:', parseResult.meta.fields);
+      
+      // Check for duplicate headers
+      const headerSet = new Set();
+      const duplicates = [];
+      for (const header of parseResult.meta.fields) {
+        if (headerSet.has(header)) {
+          duplicates.push(header);
+        }
+        headerSet.add(header);
+      }
+      if (duplicates.length > 0) {
+        console.error('⚠️ Duplicate headers found:', duplicates);
+      }
     }
     
     allQuestions = [];
