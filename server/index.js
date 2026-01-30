@@ -306,14 +306,17 @@ io.on("connection", (socket) => {
     if (game.settings.gameMode === "team") {
       const team = game.teams[teamIndex];
       if (team) {
-        team.score += points;
+        // Chuẩn hóa điểm dựa trên số người trong đội
+        // Mỗi người đóng góp bằng nhau cho điểm tổng của đội
+        const pointsPerPerson = points / team.players.length;
+        team.score += pointsPerPerson;
       }
 
       io.to(gameId).emit("scores-updated", {
         teams: game.teams.map((t, idx) => ({
           name: t.name,
           index: idx,
-          score: t.score,
+          score: Math.round(t.score * 100) / 100, // Làm tròn đến 2 chữ số thập phân
           playerCount: t.players.length,
           players: t.players.map(p => {
             const actualPlayer = game.players.find(gp => gp.id === p.id);
